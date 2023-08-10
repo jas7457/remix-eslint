@@ -1,0 +1,33 @@
+{
+  "name": "remix-eslint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jas7457/remix-eslint.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jas7457/remix-eslint/issues"
+  },
+  "homepage": "https://github.com/jas7457/remix-eslint#readme",
+  "devDependencies": {
+    "@shopify/app-bridge-types": "^0.0.3",
+    "@shopify/eslint-plugin": "^43.0.0",
+    "@types/react": "^18.2.20",
+    "eslint": "^8.46.0",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-shopify-remix-eslint": "file:shopify-remix-eslint",
+    "prettier": "^3.0.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}
