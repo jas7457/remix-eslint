@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/eslint/bin/eslint test.tsx"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/jas7457/remix-eslint#readme",
   "devDependencies": {
     "@shopify/app-bridge-types": "^0.0.3",
+    "@shopify/babel-preset": "^25.0.0",
     "@shopify/eslint-plugin": "^43.0.0",
+    "@shopify/prettier-config": "^1.1.2",
     "@types/react": "^18.2.20",
     "eslint": "^8.46.0",
     "eslint-plugin-react": "^7.33.1",
@@ -29,5 +31,6 @@
   },
   "dependencies": {
     "react": "^18.2.0"
-  }
+  },
+  "prettier": "@shopify/prettier-config"
 }

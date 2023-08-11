@@ -1,5 +1,5 @@
 /* eslint-disable @shopify/jsx-no-hardcoded-content */
-import React, { useEffect } from "react";
+import React, {useEffect} from 'react';
 
 // this should fail
 const locale = shopify.config.locale;
@@ -7,11 +7,47 @@ const locale = shopify.config.locale;
 // this should fail
 export const loader = () => {
   const locale = shopify.config.locale;
+
+  const nested = () => {
+    const locale = shopify.config.locale;
+  };
+
+  function nested2() {
+    const locale = shopify.config.locale;
+  }
+
+  const deeplyNested = () => {
+    const locale = shopify.config.locale;
+    const level1 = () => {
+      const locale = shopify.config.locale;
+      function level2() {
+        const locale = shopify.config.locale;
+      }
+    };
+  };
 };
 
 // this should fail
 export async function action() {
   const locale = shopify.config.locale;
+
+  const nested = () => {
+    const locale = shopify.config.locale;
+  };
+
+  function nested2() {
+    const locale = shopify.config.locale;
+  }
+
+  const deeplyNested = () => {
+    const locale = shopify.config.locale;
+    const level1 = () => {
+      const locale = shopify.config.locale;
+      function level2() {
+        const locale = shopify.config.locale;
+      }
+    };
+  };
 }
 
 // this should fail
@@ -28,14 +64,14 @@ export const links = () => {
 export const meta = () => {
   const locale = shopify.config.locale;
   return {
-    title: "Something cool",
-    description: "This becomes the nice preview on search results.",
+    title: 'Something cool',
+    description: 'This becomes the nice preview on search results.',
   };
 };
 
 // this should fail
 export const shouldRevalidate = () => {
-  return shopify.config.locale === "en";
+  return shopify.config.locale === 'en';
 };
 
 // this should fail

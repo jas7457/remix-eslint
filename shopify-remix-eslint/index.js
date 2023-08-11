@@ -2,8 +2,8 @@ const pkg = require('./package.json');
 
 const pluginName = pkg.name.replace('eslint-plugin-', '');
 
-const isShopifyGlobalName = (name) => {
-  return name === 'shopify';
+const isClientGlobalName = (name) => {
+  return ['shopify', 'window'].includes(name);
 };
 
 const isReturnValueJSXOrNull = (scope) => {
@@ -64,20 +64,42 @@ const isReactFunctionComponent = (scope) => {
 };
 
 const isRemixServerFunction = (scope) => {
+  const isExportedRemixFunction = (node) => {
+    while (node && node.parent) {
+      if (node.type === 'Program') {
+        return false;
+      }
+
+      switch (node.type) {
+        case 'FunctionDeclaration':
+          if (
+            node.parent.type === 'ExportNamedDeclaration' &&
+            isRemixServerFunctionName(node.id.name)
+          ) {
+            return true;
+          }
+        case 'FunctionExpression':
+        case 'ArrowFunctionExpression':
+          if (
+            node.parent.type === 'VariableDeclarator' &&
+            node.parent.parent?.parent?.type === 'ExportNamedDeclaration' &&
+            isRemixServerFunctionName(node.parent.id.name)
+          ) {
+            return true;
+          }
+      }
+
+      node = node.parent;
+    }
+
+    return false;
+  };
+
   switch (scope.block.type) {
     case 'FunctionDeclaration':
-      return (
-        scope.block.parent.type === 'ExportNamedDeclaration' &&
-        isRemixServerFunctionName(scope.block.id.name)
-      );
     case 'FunctionExpression':
     case 'ArrowFunctionExpression':
-      if (
-        scope.block.parent.type === 'VariableDeclarator' &&
-        scope.block.parent.parent.parent.type === 'ExportNamedDeclaration'
-      ) {
-        return isRemixServerFunctionName(scope.block.parent.id.name);
-      }
+      return isExportedRemixFunction(scope.block);
   }
   return false;
 };
@@ -155,14 +177,14 @@ const createFn = (rule) => (context) => {
 
       // Report variables declared elsewhere (ex: variables defined as "global" by eslint)
       scope.variables.forEach((variable) => {
-        if (!variable.defs.length && isShopifyGlobalName(variable.name)) {
+        if (!variable.defs.length && isClientGlobalName(variable.name)) {
           variable.references.forEach(reportReference(context, rule));
         }
       });
 
       // Report variables not declared at all
       scope.through.forEach((reference) => {
-        if (isShopifyGlobalName(reference.identifier.name)) {
+        if (isClientGlobalName(reference.identifier.name)) {
           reportReference(context, rule)(reference);
         }
       });
